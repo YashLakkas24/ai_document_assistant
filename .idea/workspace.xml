@@ -5,17 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49df43de-6220-47e1-876a-00b8ab829d63" name="Changes" comment="Initial commit - AI Document Assitant">
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ai_document_assistant/AiConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ai_document_assistant/AiDocumentAssistantApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ai_document_assistant/controller/DocController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ai_document_assistant/service/DocService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ai_document_assistant/service/DocumentChunkService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ai_document_assistant/service/DocumentParserService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ai_document_assistant/service/DocumentProcessorService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ai_document_assistant/service/SimilarityService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,8 +21,33 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="main" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "YashLakkas24"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/YashLakkas24/ai_document_assistant.git",
+    "accountId": "3f094908-6973-4069-a43d-b84ca207c687"
+  }
+}]]></component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -116,7 +132,7 @@
       <workItem from="1773845745795" duration="4433000" />
       <workItem from="1774011883826" duration="13000" />
       <workItem from="1774179240863" duration="6470000" />
-      <workItem from="1774190165770" duration="752000" />
+      <workItem from="1774190165770" duration="1460000" />
     </task>
     <task id="LOCAL-00001" summary="22-03">
       <option name="closed" value="true" />
