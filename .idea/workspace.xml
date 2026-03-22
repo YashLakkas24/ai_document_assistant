@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49df43de-6220-47e1-876a-00b8ab829d63" name="Changes" comment="Initial commit - AI Document Assitant">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="49df43de-6220-47e1-876a-00b8ab829d63" name="Changes" comment="Initial commit - AI Document Assitant" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -132,7 +129,7 @@
       <workItem from="1773845745795" duration="4433000" />
       <workItem from="1774011883826" duration="13000" />
       <workItem from="1774179240863" duration="6470000" />
-      <workItem from="1774190165770" duration="1460000" />
+      <workItem from="1774190165770" duration="1866000" />
     </task>
     <task id="LOCAL-00001" summary="22-03">
       <option name="closed" value="true" />
