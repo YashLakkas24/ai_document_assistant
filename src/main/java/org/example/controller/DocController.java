@@ -1,14 +1,13 @@
-package org.example.ai_document_assistant.controller;
+package org.example.controller;
 
-import org.example.ai_document_assistant.service.*;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+
+import org.example.service.DocService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
-
-import javax.print.attribute.standard.Media;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/doc")

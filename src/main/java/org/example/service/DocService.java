@@ -1,4 +1,4 @@
-package org.example.ai_document_assistant.service;
+package org.example.service;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.PromptTemplate;

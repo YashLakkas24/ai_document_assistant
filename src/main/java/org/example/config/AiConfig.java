@@ -1,4 +1,4 @@
-package org.example.ai_document_assistant;
+package org.example.config;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.context.annotation.Bean;
@@ -10,5 +10,8 @@ public class AiConfig {
     @Bean
     public ChatClient chatClient(ChatClient.Builder builder) {
         return builder.build();
+    }
+
+    public static class config {
     }
 }

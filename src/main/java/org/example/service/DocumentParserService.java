@@ -1,4 +1,4 @@
-package org.example.ai_document_assistant.service;
+package org.example.service;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
