@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Doc Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+ </head>
+<body class="bg-light">
+<div class="container py-4">
+    <h1 class="text-center mb-4">AI Document Assistant</h1>
+
+    <!-- Authentication Section -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="card-title h5 mb-3">Authentication</h2>
+            <div class="mb-3">
+                <input type="text" id="username" class="form-control mb-2" placeholder="Username">
+                <input type="password" id="password" class="form-control mb-3" placeholder="Password">
+                <button onclick="register()" class="btn btn-primary me-2">Register</button>
+                <button onclick="login()" class="btn btn-secondary">Login</button>
+            </div>
+            <div id="authStatus"></div>
+        </div>
+    </div>
+
+    <!-- Document Upload Section -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="card-title h5 mb-3">Upload Document</h2>
+            <div class="mb-3">
+                <input type="file" id="fileInput" class="form-control mb-2" accept=".pdf,.docx,.txt">
+                <button onclick="uploadFile()" class="btn btn-success">Upload</button>
+            </div>
+            <div id="uploadStatus"></div>
+        </div>
+    </div>
+
+    <!-- Chat Section -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title h5 mb-3">Ask Questions</h2>
+            <div class="input-group mb-3">
+                <input type="text" id="questionInput" class="form-control"
+                       placeholder="Ask a question about your document...">
+                <button onclick="askQuestion()" class="btn btn-info">Send</button>
+            </div>
+            <div id="chatBox" class="border rounded p-3 bg-white" style="height: 350px; overflow-y: auto;">
+                <p class="text-muted mb-0">Chat will appear here...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function register() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const authStatus = document.getElementById('authStatus');
+
+        if (!username || !password) {
+            authStatus.innerHTML = '<div class="alert-custom error p-2 mb-2">Please enter username and password</div>';
+            return;
+        }
+
+        fetch('/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({username, password})
+        })
+            .then(response => response.text())
+            .then(data => {
+                authStatus.innerHTML = '<div class="alert-custom success p-2 mb-2">' + data + '</div>';
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+            })
+            .catch(error => {
+                authStatus.innerHTML = '<div class="alert-custom error p-2 mb-2">Registration failed: ' + error + '</div>';
+            });
+    }
+
+    function login() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const authStatus = document.getElementById('authStatus');
+
+        if (!username || !password) {
+            authStatus.innerHTML = '<div class="alert-custom error p-2 mb-2">Please enter username and password</div>';
+            return;
+        }
+
+        fetch('/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({username, password})
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(err => {
+                        throw new Error(err);
+                    });
+                }
+                return response.text()
+            })
+            .then(token => {
+                localStorage.setItem('token', token);
+                authStatus.innerHTML = '<div class="alert-custom success p-2 mb-2">Login successful! You can now upload documents and ask questions.</div>';
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+            })
+            .catch(error => {
+                authStatus.innerHTML = '<div class="alert-custom error p-2 mb-2">Login failed: ' + error + '</div>';
+            });
+    }
+
+    async function uploadFile() {
+        try {
+            const file = document.getElementById('fileInput').files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const token = localStorage.getItem('token');
+            console.log("TOKEN:", token);
+            const response = await fetch('/doc/upload', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                body: formData
+            })
+
+            if (response.ok) {
+                document.getElementById('uploadStatus').innerHTML = '<div class="alert-custom success p-2 mb-2">Document uploaded successfully</div>';
+            } else {
+                const text = await response.text();
+                document.getElementById('uploadStatus').innerHTML = '<div class="alert-custom error p-2 mb-2">Upload failed</div>' + text;
+            }
+        } catch (error) {
+            document.getElementById('uploadStatus').innerHTML = '<div class="alert-custom error p-2 mb-2">Error: ' + error.message + '</div>';
+        }
+    }
+
+    async function askQuestion() {
+        const input = document.getElementById('questionInput');
+        const chatBox = document.getElementById('chatBox');
+        const question = input.value;
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            alert('Please login first');
+            return;
+        }
+
+        input.value = '';
+
+        const userDiv = document.createElement('div');
+        userDiv.innerHTML = "<b>You: </b>" + question;
+        chatBox.appendChild(userDiv);
+
+        const aiDiv = document.createElement('div');
+        aiDiv.innerHTML = "<b>AI: </b>";
+        chatBox.appendChild(aiDiv);
+
+        const response = await fetch('/doc/ask?question=' + encodeURIComponent(question), {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'userId': extractUserFromToken(token)
+            }
+        });
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+
+        let buffer = "";
+        let aiText = "";
+
+        while (true) {
+            const {done, value} = await reader.read();
+            if (done)
+                break;
+            buffer += decoder.decode(value, {stream: true});
+            let lines = buffer.split("\n");
+            buffer = lines.pop();
+
+            for (let line of lines) {
+                if (line.startsWith("data:")) {
+                    const chunk = line.replace("data:", "");
+                    aiText += chunk;
+                    aiDiv.innerHTML = "<b>AI:</b>" + aiText;
+                }
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+
+        aiDiv.innerHTML = "<b>AI:</b>" + markdownToHtml(aiText);
+    }
+
+    function extractUserFromToken(token) {
+        if (!token) {
+            console.error("Token is missing");
+            return null;
+        }
+
+        const parts = token.split('.');
+        if (parts.length !== 3) {
+            console.error("Invalid JWT format");
+            return null;
+        }
+
+        const payload = parts[1];
+        try {
+
+            const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+
+            const padded = base64.padEnd(base64.length + (4 - base64.length % 4) % 4, '=');
+
+            const decoded = JSON.parse(atob(padded));
+            return decoded.sub || decoded.username;
+        } catch (error) {
+            console.error("Error decoding token:", error);
+            return null;
+        }
+    }
+
+    function markdownToHtml(text) {
+        return text
+            .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
+            .replace(/\*(.*?)\n/g, "<li>$1</li>")
+            .replace(/\+(.*?)\n/g, "<li>$1</li>")
+            .replace(/\n/g, "<br>");
+    }
+
+</script>
+</body>
+</html>
