@@ -8,7 +8,7 @@ import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.jdbc.core.JdbcTemplate; 
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
@@ -16,6 +16,7 @@ import reactor.core.publisher.Flux;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class DocService {
@@ -71,7 +72,6 @@ public class DocService {
     }
 
     public void processAndStore(MultipartFile file, String userId) {
-//        jdbcTemplate.execute("DELETE FROM vector_store where user_id='" + userId + "'");
 
         String text = extractionService.extractText(file);
         text = processorService.cleanText(text);

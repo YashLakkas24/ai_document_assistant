@@ -1,6 +1,6 @@
 package org.example.service;
 
-import org.example.repo.entity.User;
+import org.example.entity.User;
 import org.example.exception.InvalidRequestException;
 import org.example.repo.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +22,9 @@ public class AuthService {
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
+        if (userRepository.findByUsername(username).isPresent()) {
+            return "This username is already taken. Please choose another one.";
+        }
         userRepository.save(user);
         return "User registered successfully";
     }

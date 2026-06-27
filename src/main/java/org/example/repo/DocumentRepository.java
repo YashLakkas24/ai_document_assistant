@@ -1,6 +1,6 @@
 package org.example.repo;
 
-import org.example.repo.entity.Document;
+import org.example.entity.Document;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

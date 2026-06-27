@@ -16,11 +16,12 @@ public class JwtService {
 
     public String generateToken(String username) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(username) //identifies the user associated with token.
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
                 .signWith(secretKey)
-                .compact();
+                .compact(); // converts JWT builder into final encoded JWT string ,
+                            // then sent to the client
     }
 
     public String extractUsername(String token) {
